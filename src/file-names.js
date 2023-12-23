@@ -15,9 +15,27 @@ const { NotImplementedError } = require('../extensions/index.js');
  * the output should be ["file", "file(1)", "image", "file(1)(1)", "file(2)"]
  *
  */
-function renameFiles(/* names */) {
-  throw new NotImplementedError('Not implemented');
+function renameFiles(names) {
   // remove line with error and write your code here
+  let outputArr = [];
+  let countuniq = [];
+  //идея не моя, к сожалению, просто в новый массив добавляем файлы
+  //если файл там уже есть, то прикручиваем уникальный счетчик таких файлов
+  //ну и увеличиваем его, если добавляем одинаковые файлы. Используя этот счетчик, делаем новые уникальные файлы и им тоже свои счетчики
+  while (names.length !== 0) {
+    if(!outputArr.includes(names[0])) {
+      outputArr.push(names[0]);
+      countuniq.push(1);
+      names.splice(0, 1);
+    }
+    else {
+      outputArr.push(names[0] + '(' + countuniq[outputArr.indexOf(names[0])] + ')');
+      countuniq[outputArr.indexOf(names[0])] += 1;
+      countuniq.push(1);
+      names.splice(0, 1);
+    }
+  }
+  return outputArr;
 }
 
 module.exports = {
